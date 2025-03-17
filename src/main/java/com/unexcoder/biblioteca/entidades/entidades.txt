@@ -1,0 +1,1 @@
+en este paquete se almacenarán aquellas clases que es necesario persistir en  la base de datos

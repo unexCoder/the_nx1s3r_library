@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{/fragments/head :: head}"> </head>
+
+<body>
+    <header th:replace = "~{/fragments/header :: header}"></header>
+    <div th:if="${form == 'libro'}">
+
+        <div>
+            <form th:action="@{/libro/registro}" method="POST">
+
+                <div th:replace= "~{/fragments/msginject :: div}"></div>    
+                <div class="form" sec:authorize="hasRole('ADMIN')">
+                    <h2>Cargar Libro</h2>
+                    <div>
+                        <input type="number" name="isbn" placeholder="ISBN">
+                    </div>
+                    
+                    <div>
+                        <input type="text" name="titulo" placeholder="Titulo del Libro">
+                    </div>
+                    <div>
+                        <input value=0 type="number" name="ejemplares" placeholder="Cantidad de ejemplares">
+                    </div>
+
+                    <div>
+                        <select name="idAutor">
+                            <option value="">Seleccionar Autor</option>
+                            <option th:each="autor : ${autores}" th:value="${autor.id}" th:text="${autor.nombre}">
+                            </option>
+                        </select>
+                    </div>
+                        <select name="idEditorial">
+                            <option value="">Seleccionar Editorial</option>
+                            <option th:each="editorial : ${editoriales}" th:value="${editorial.id}"
+                                th:text="${editorial.nombre}">
+                            </option>
+                        </select>
+                    <div>
+
+                    </div>
+                    <button class="register-buttom" type="submit">Guardar</button>
+            </form>
+        </div>
+
+        <div>
+            <h2>Catálogo de libros</h2>
+            <a sec:authorize="hasRole('ADMIN')" th:each="libro : ${libros}"
+                th:href="@{/libro/modificar/__${libro.isbn}__}">
+                <p
+                    th:text="${libro.ejemplares} + ' | ' + ${libro.titulo}  + ' | ' + ${libro.autor.nombre} + ' | ' + ${libro.editorial.nombre}">
+                </p>
+            </a>
+            <p sec:authorize="hasRole('USER')" th:each="libro : ${libros}"
+                th:text="${libro.titulo}  + ' | ' + ${libro.autor.nombre} + ' | ' + ${libro.editorial.nombre}">
+            </p>
+        </div>
+    </div>
+
+
+    <div  th:if="${form == 'editorial'}">
+        <div class="form" sec:authorize="hasRole('ADMIN')">
+            <div th:replace= "~{/fragments/msginject :: div}"></div>
+            <!-- <div th:if="${error != null}">
+                <div>
+                    <h5>Error 👎</h5>
+                    <p th:text="${error}"></p>
+                </div>
+            </div>
+            <div th:if="${exito != null}">
+                <div>
+                    <h5>Exito!</h5>
+                    <p th:text="${exito}"></p>
+                </div>
+            </div> -->
+
+            <form th:action="@{/editorial/registro}" method="POST">
+                <h2>Cargar Editorial</h2>
+                <div>
+                    <input type="text" name="nombre" placeholder="Nombre de la Editorial">
+                </div>
+                <button class="register-buttom" type="submit">Guardar</button>
+            </form>
+        </div>
+
+        <div>
+            <h2>Lista editoriales</h2>
+            <a sec:authorize="hasRole('ADMIN')" th:each="editorial : ${editoriales}"
+                th:href="@{/editorial/modificar/__${editorial.id}__}">
+                <span th:text="${editorial.nombre} + ' | '"></span>
+            </a>
+            <span sec:authorize="hasRole('USER')" th:each="editorial : ${editoriales}"
+                th:text="${editorial.nombre} + ' | '"></span>
+        </div>
+
+    </div>
+
+    <div th:if="${form == 'autor'}">
+
+        <div class="form"  sec:authorize="hasRole('ADMIN')">
+            <div th:replace= "~{/fragments/msginject :: div}"></div>
+            <!-- <div th:if="${error != null}">
+                <div>
+                    <h5>Error 👎</h5>
+                    <p th:text="${error}"></p>
+                </div>
+            </div>
+            <div th:if="${exito != null}">
+                <div>
+                    <h5>Exito!</h5>
+                    <p th:text="${exito}"></p>
+                </div>
+            </div> -->
+
+            <form th:action="@{/autor/registro}" method="POST">
+                <h2>Cargar Autor</h2>
+                <div>
+                    <input type="text" name="nombre" placeholder="Nombre del Autor">
+                </div>
+                <button class="register-buttom" type="submit">Guardar</button>
+            </form>
+        </div>
+
+        <div>
+            <h2>Lista autores</h2>
+            <a sec:authorize="hasRole('ADMIN')" th:each="autor : ${autores}"
+                th:href="@{/autor/modificar/__${autor.id}__}">
+                <span th:text="${autor.nombre} + ' | '"></span>
+            </a>
+            <span sec:authorize="hasRole('USER')" th:each="autor : ${autores}" th:text="${autor.nombre} + ' | '"></span>
+        </div>
+    </div>
+</body>
+</html>

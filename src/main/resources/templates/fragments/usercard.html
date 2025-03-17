@@ -1,0 +1,8 @@
+<div class="user-card">
+    <!-- <img th:if="${session.userSesion.imagen != null}" th:src="@{'/imagen/perfil/' + ${session.userSesion.id}}" alt="Foto de perfil"> -->
+    <img th:src="${session.userSesion.imagen != null} ? @{'/imagen/perfil/' + ${session.userSesion.id}} : '/images/default_pic.png'" alt="Profile Picture" />
+    <h3>Hola <span  sec:authentication="name"></span></h3>
+</div>
+
+"
+

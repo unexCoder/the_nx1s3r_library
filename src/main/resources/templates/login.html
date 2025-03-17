@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"   xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace = "~{/fragments/head :: head}"> </head>
+
+<body>    
+    <div class="login">
+
+        <h1 th:replace = "~{/fragments/logo :: h1}"></h1>
+        <form  th:action="@{/logincheck}" method="POST">
+            
+            <div>
+                <input class="logininput" type="email"  name="email" placeholder="email">
+            </div>
+            <div>
+                <input class="logininput" type="password" name="password" placeholder="password">
+            </div>
+            <div class="login-buttons">
+                <div>
+                    <button type="submit">Ingresar</button>
+                </div>
+                <div>
+                    <button onclick="window.location.href='/registrar'" type="button" >Registrarse</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

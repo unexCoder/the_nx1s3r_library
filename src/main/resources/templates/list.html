@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"   xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{/fragments/head :: head}"> </head>
+
+<body>
+    <header th:replace="~{/fragments/header :: header}"></header>
+    <div>
+        <div th:if="${autores} != null">
+            <h3>Listado de autores</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">Id del Autor</th>
+                        <th scope="col">Nombre del Autor</th>
+                        <th scope="col" sec:authorize="hasRole('ADMIN')">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody th:each="autor : ${autores}">
+                    <tr>
+                        <th scope="row" th:text="${autor.id}"></th>
+                        <td th:text="${autor.nombre}"></td>
+                        <td sec:authorize="hasRole('ADMIN')">
+                            <a th:href="@{/autor/modificar/__${autor.id}__}"><i class="fas fa-feather-alt"> </i>
+                                Modificar
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div th:if="${editoriales} != null">
+            <h3>Listado de editoriales</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">Id de Editorial</th>
+                        <th scope="col">Nombre de Editorial</th>
+                        <th scope="col" sec:authorize="hasRole('ADMIN')">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody th:each="editorial : ${editoriales}">
+                    <tr>
+                        <th scope="row" th:text="${editorial.id}"></th>
+                        <td th:text="${editorial.nombre}"></td>
+                        <td sec:authorize="hasRole('ADMIN')">
+                            <a th:href="@{/editorial/modificar/__${editorial.id}__}"><i class="fas fa-feather-alt"> </i>
+                                Modificar </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div th:if="${libros} != null">
+            <h3>Listado de libros</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">ISBN</th>
+                        <th scope="col">Título del libro</th>
+                        <th scope="col">Autor del libro</th>
+                        <th scope="col">Editorial</th>
+                        <th scope="col" sec:authorize="hasRole('ADMIN')">Cantidad</th>
+                        <th scope="col" sec:authorize="hasRole('ADMIN')">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody th:each="libro : ${libros}">
+                    <tr>
+                        <th scope="row" th:text="${libro.isbn}"></th>
+                        <td th:text="${libro.titulo}"></td>
+                        <td th:text="${libro.autor.nombre}"></td>
+                        <td th:text="${libro.editorial.nombre}"></td>
+                        <td sec:authorize="hasRole('ADMIN')" th:text="${libro.ejemplares}"></td>
+                        <td sec:authorize="hasRole('ADMIN')">
+                            <a th:href="@{/libro/modificar/__${libro.isbn}__}"><i class="fas fa-feather-alt"> </i>
+                                Modificar </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div sec:authorize="hasRole('ADMIN')" th:if="${users} != null">
+            <h3>Listado de usuarios</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Foto de perfil</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Acciones</th>
+                        <th>ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="user : ${users}">
+                        <td style="display:flex;justify-content: center;align-items: center;">
+                            <!-- <img th:if="${user.imagen != null}" th:src="@{'/imagen/perfil/' + ${user.id}}"
+                                alt="Foto de perfil"> -->
+                            <img th:src="${user.imagen != null} ? @{'/imagen/perfil/' + ${user.id}} : '/images/default_pic.png'" alt="Profile Picture" />    
+                        </td>
+                        <td th:text="${user.nombre}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td th:text="${user.rol}"></td>
+                        <td>
+                            <a th:href="@{/admin/dashboard/usuarios/__${user.id}__}"><i class="fas fa-feather-alt">
+                                </i>Cambiar rol </a>
+                        </td>
+                        <td th:text="${user.id}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

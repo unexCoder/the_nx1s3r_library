@@ -1,0 +1,1 @@
+en este paquete se almacenarán los repositorios que servirán como interfaces entre el modelo de objetos y la base de datos relacional. 

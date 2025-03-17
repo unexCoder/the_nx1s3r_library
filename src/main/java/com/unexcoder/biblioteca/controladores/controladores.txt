@@ -1,0 +1,4 @@
+ en este paquete se almacenarán las clases responsables de gestionar las solicitudes del usuario 
+ (ya sea a través de una interfaz gráfica o mediante una API). Estas clases actúan como intermediarias 
+ entre la capa de presentación y las capas lógicas del sistema, procesando peticiones y devolviendo las 
+ respuestas adecuadas.

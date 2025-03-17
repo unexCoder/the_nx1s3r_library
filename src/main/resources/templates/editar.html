@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{/fragments/head :: head}"> </head>
+
+<body>
+    <header th:replace="~{/fragments/header :: header}"></header>
+    <div th:if="${autor} != null">
+        <h2>Editar Autor</h2>
+        <div th:replace="~{/fragments/msginject :: div}"></div>
+        <form class="form" th:action="@{/autor/modificar/__${autor.id}__}" method="POST">
+            <div>
+                <input hidden th:value="${autor.id}" name="id">
+                <input type="text" th:value="${autor.nombre}" name="nombre" placeholder="Nombre del Autor">
+            </div>
+            <button class="register-buttom" type="submit">Guardar</button>
+        </form>
+    </div>
+
+    <div th:if="${editorial} != null">
+        <h2>Editar Editorial</h2>
+        <div th:replace="~{/fragments/msginject :: div}"></div>
+        <form class="form" th:action="@{/editorial/modificar/__${editorial.id}__}" method="POST">
+            <div>
+                <input hidden th:value="${editorial.id}" name="id">
+                <input type="text" th:value="${editorial.nombre}" name="nombre" placeholder="Nombre de la Editorial">
+            </div>
+            <button class="register-buttom" type="submit">Guardar</button>
+        </form>
+    </div>
+
+    <div th:if="${libro} != null">
+        <h2>Editar Libro</h2>
+        <div th:replace="~{/fragments/msginject :: div}"></div>
+        <form class="form" th:action="@{/libro/modificar/__${libro.isbn}__}" method="POST">
+            <div>
+                <input hidden th:value="${libro.isbn}" name="id">
+                <input th:value="${libro.isbn}" type="number" name="isbn" placeholder="ISBN">
+            </div>
+            <div>
+                <input th:value="${libro.titulo}" type="text" name="titulo" placeholder="Titulo del Libro">
+            </div>
+            <div>
+                <input value=0 th:value="${libro.ejemplares}" type="number" name="ejemplares"
+                    placeholder="Ejemplares disponibles">
+            </div>
+
+            <div>
+                <select name="autorID">
+                    <option value="">Seleccionar Autor</option>
+                    <option th:each="autor : ${autores}" th:value="${autor.id}" th:text="${autor.nombre}"
+                        th:selected="${libro.autor?.id == autor.id}"></option>></option>
+                </select>
+            </div>
+            <div>
+                <select name="editorialID">
+                    <option value="">Seleccionar Editorial</option>
+                    <option th:each="editorial : ${editoriales}" th:value="${editorial.id}"
+                        th:text="${editorial.nombre}" th:selected="${libro.editorial?.id == editorial.id}"></option>>
+                    </option>
+                </select>
+            </div>
+            <button class="register-buttom" type="submit">Guardar</button>
+        </form>
+    </div>
+
+
+    <div th:if="${usuario} != null">
+        <h2>Editar perfil</h2>
+        <div th:replace="~{/fragments/msginject :: div}"></div>
+        <form class="form" th:action="@{/perfil/editar/__${usuario.id}__}" method="POST" enctype="multipart/form-data">
+            <div class="form-container">
+                <input hidden th:value="${usuario.id}" name="id">
+
+                <div style="display:flex; flex-direction: column; justify-content: center;align-items: center; margin: 10px;">
+                    <img id="profileImage"  th:src="${session.userSesion.imagen != null} ? @{'/imagen/perfil/' + ${session.userSesion.id}} : '/images/default_pic.png'" 
+                    onclick="document.getElementById('file').click()" alt="Profile Picture"/>    
+                    <input type="file" id="file" name="file" accept="image/*" style="display: none;" onchange="previewImage(event)">
+                    <p>Click to update picture</p>
+                </div>
+
+                <div>
+                    <input type="text" name="nombre" placeholder="NOMBRE" th:value="${usuario.nombre}">
+                </div>
+                <div>
+                    <input type="email" name="email" placeholder="EMAIL" th:value="${usuario.email}">
+                </div>
+                <!-- <div>
+                    <input type="file" name="file" th:value="${usuario.imagen.nombre}">
+                </div> -->
+                <div id="password">
+                    <input type="password" name="password" placeholder="password" th:value="${password}"
+                    oninput="toggleNextField()">
+                </div>
+                <div id="passwordRepeat" style="display: none;">
+                    <input type="password" name="passwordRepeat" placeholder="re-enter password"
+                        th:value="${password2}">
+                </div>
+            </div>
+            <button class="register-buttom" type="submit">Guardar</button>
+        </form>
+    </div>
+
+    <section>
+        <div>
+            <div>
+                <h3><a th:href="@{/inicio}">Cancelar</a></h3>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
