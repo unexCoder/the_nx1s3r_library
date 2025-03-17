@@ -30,4 +30,9 @@ build/
 !**/src/test/**/build/
 
 ### VS Code ###
+### VS Code ###
 .vscode/
+
+
+### application.properties
+/Volumes/Archivo/LUIGI/work/dev/java_backend/93_spring_biblioteca/biblioteca/src/main/resources/application.properties
